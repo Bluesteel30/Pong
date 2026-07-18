@@ -1,8 +1,8 @@
 public class Ball{
 
-private int x;
-private int y;
-private int radius;
+public int x;
+public int y;
+public int radius;
 
 public Ball(int x,int y, int r){
 	this.x = x;
@@ -10,6 +10,10 @@ public Ball(int x,int y, int r){
 	radius = r;
 }
 
+public void move(int m){
+	this.x += 1;
+	this.y += m;
+}
 
 
 

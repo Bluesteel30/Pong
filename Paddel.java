@@ -12,7 +12,7 @@ public class Paddel{
 	public void move(char c){
 		if (c == 'w' && this.y >= 5){
         		this.y -= 5;
-        	} else if (c == 's' && this.y <= 130){
+        	} else if (c == 's' && this.y <= 180){
         		this.y += 5;
         	}
         }
