@@ -52,12 +52,23 @@ public Game() {
 
 });
 }	
-public void motion(int m) {
-    while (b.y <= 200-m) {
-    	b.move(m);
+public void motion(int m, int speed) {
+	boolean bol = true;
+    while (b.y <= 200-m || b.y >= 5+m) {
+    	b.move(bol, m, speed);
+    	if (left.y < b.y){
+    		left.y += 1; 
+    	} else {
+    		left.y -= 1;
+    	}
     	repaint();
-    	if (b.y+m > 200-m){
+    	if (b.y+m > 200-m || b.y+m < 5+m){
     		m = -m;
+    	}
+    	if ((b.y >= right.y && b.y <= (right.y + right.size)) && b.x >= right.x && b.x <= (right.x + 8) || 
+    		(b.y >= left.y && b.y <= (left.y + left.size)) && b.x >= left.x && b.x <= (left.x + 8)){
+    		m = -m;
+    		bol = !bol;
     	}
     	System.out.println(b.y);
 		try {
@@ -67,6 +78,14 @@ public void motion(int m) {
 		}
     	}
 }
+
+
+
+
+
+
+
+
 	public static void main(String[] args){
 		JFrame frame = new JFrame("Pong");
         Game panel = new Game();
@@ -74,7 +93,7 @@ public void motion(int m) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel); // Add the graphics panel to the frame
         frame.setVisible(true);
-        panel.motion(1);
+        panel.motion(-1, 3);
 
         
 }
