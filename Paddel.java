@@ -9,10 +9,10 @@ public class Paddel{
 		this.y = y;
 	}
 
-	public void move(char c){
-		if (c == 'w' && this.y >= 5){
+	public void move(boolean isGoal, char c){
+		if (c == 'w' && this.y >= 5 && !isGoal){
         		this.y -= 5;
-        	} else if (c == 's' && this.y <= 180){
+        	} else if (c == 's' && this.y <= 180 && !isGoal){
         		this.y += 5;
         	}
         }

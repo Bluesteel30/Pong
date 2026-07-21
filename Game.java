@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.util.Scanner; 
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
@@ -10,23 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Game extends JPanel{
 	
-	private int score;
+	private int userScore;
+	private int cpuScore;
 	private	Paddel left = new Paddel(30, 50, 100);
 	private	Paddel right = new Paddel(30, 350, 100);
 	private	Ball b = new Ball(200,100, 10);
+	private boolean isGoal = false;
 	Scanner scanner = new Scanner(System.in);
 
-
-
-	public void increaseScore(){
-		score++;
-	}
-	public void reset(){
-		score = 0;
-	}
-	public int getScore(){
-		return score;
-	}
 
 	@Override
     protected void paintComponent(Graphics g){
@@ -35,6 +27,18 @@ public class Game extends JPanel{
         g.fillRect(left.x, left.y, 8, left.size);
         g.fillRect(right.x, right.y, 8, right.size);
         g.fillOval(b.x,b.y, b.radius,b.radius);
+        if (isGoal) {
+        	if (b.x > 200){
+        		cpuScore++;
+        	} else {
+        		userScore++;
+        	}
+        	Font font = new Font("Serif", Font.PLAIN, 30);
+			g.setFont(font);
+
+        	g.drawString("Goal! " + userScore + ":" + cpuScore, 175, 105);
+        }
+
     }
 
     
@@ -45,13 +49,15 @@ public Game() {
     @Override
 
     public void keyPressed(KeyEvent e) {
-        right.move(e.getKeyChar());
+        right.move(isGoal, e.getKeyChar());
         repaint();
     }
 
 
 });
 }	
+
+
 public void motion(int m, int speed) {
 	boolean bol = true;
     while (b.y <= 200-m || b.y >= 5+m) {
@@ -70,15 +76,19 @@ public void motion(int m, int speed) {
     		m = -m;
     		bol = !bol;
     	}
-    	System.out.println(b.y);
+    	if (b.x < 30 || b.x > 370){
+			speed = 0;
+			isGoal = true;
+			break;
+		}
+    	System.out.println(b.x + " " +b.y);
 		try {
 			TimeUnit.MILLISECONDS.sleep(20);
 		} catch (InterruptedException e) {
     Thread.currentThread().interrupt();
 		}
     	}
-}
-
+	}
 
 
 
